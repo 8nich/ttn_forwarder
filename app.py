@@ -13,8 +13,8 @@ engine = create_engine(config_data["mysql-engine"])
 
 app = Flask(__name__)
 
-@app.route('/up')
-#@app.route('/up', methods=['POST'])
+#@app.route('/up')
+@app.route('/up', methods=['POST'])
 def forward_up():
     #influx_response = influxdb(request.json['payload_fields'])
     #success = len(influx_response) == 0
