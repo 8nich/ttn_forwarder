@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 from sqlalchemy import create_engine
 import pandas as pd
+import json
 
 load_dotenv()
 config_data = {}
@@ -23,7 +24,7 @@ def forward_up():
     #    df.to_sql(name=table, con=con, if_exists='replace', index=True)
     #engine.dispose()
     #print(f"insert done into: {table}")
-    print(request.json)
+    print(json.dumps(request.json, indent=4, sort_keys=True))
 
     return jsonify(success=1, response = "ok")
     #return jsonify(success=success,
