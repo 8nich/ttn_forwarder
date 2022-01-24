@@ -29,7 +29,7 @@ def forward_up():
             request.json['uplink_message']['decoded_payload']['accelerometer_7']['x'],
             request.json['uplink_message']['decoded_payload']['accelerometer_7']['y'],
             request.json['uplink_message']['decoded_payload']['accelerometer_7']['z'],
-            request.json['uplink_message']['rx_metadata']['length'],
+            len(request.json['uplink_message']['rx_metadata']),
             request.json['uplink_message']['settings']['data_rate']['lora']['bandwidth'],
             request.json['uplink_message']['settings']['data_rate']['lora']['spreading_factor']],
         columns=[   'timestamp1',
