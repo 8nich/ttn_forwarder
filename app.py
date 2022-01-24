@@ -14,14 +14,13 @@ engine = create_engine(config_data["mysql-engine"])
 
 app = Flask(__name__)
 
-#@app.route('/up')
 @app.route('/up', methods=['POST'])
 def forward_up():
     table = 'testacht1'
     print(json.dumps(request.json, indent=4, sort_keys=True))
     df = pd.DataFrame([request.json['uplink_message']['received_at'],
             request.json['end_device_ids']['dev_eui'],
-            request.jsond['uplink_message']['decoded_payload']['analog_in_4'],
+            request.json['uplink_message']['decoded_payload']['analog_in_4'],
             request.json['uplink_message']['decoded_payload']['luminosity_6'],
             request.json['uplink_message']['decoded_payload']['temperature_5'],
             request.json['uplink_message']['decoded_payload']['digital_in_1'],
