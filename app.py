@@ -47,7 +47,7 @@ def forward_up():
                     'gateways',
                     'BW',
                     'SF'])
-    pd['timestamp1'] = pd.to_datetime(df['timestamp1'])
+    df['timestamp1'] = pd.to_datetime(df['timestamp1'])
     print(df)
     with engine.connect() as con:
         df.to_sql(name=table, con=con, if_exists='replace', index=True)
