@@ -53,10 +53,7 @@ def forward_up():
         df.to_sql(name=table, con=con, if_exists='replace', index=True)
     engine.dispose()
     print(f"insert done into: {table}")
-
     return jsonify(success=1, response = "ok")
-    #return jsonify(success=success,
-    #              response=influx_response.decode('utf-8'))
 
 
 @app.route("/")
