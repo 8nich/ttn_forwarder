@@ -17,6 +17,7 @@ app = Flask(__name__)
 #@app.route('/up')
 @app.route('/up', methods=['POST'])
 def forward_up():
+    table = 'testacht1'
     print(json.dumps(request.json, indent=4, sort_keys=True))
     df = pd.DataFrame([request.json.uplink_message.received_at,
             request.json.end_device_ids.dev_eui,
