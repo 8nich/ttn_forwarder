@@ -5,6 +5,7 @@ import os
 from sqlalchemy import create_engine
 import pandas as pd
 import json
+import numpy as np
 
 load_dotenv()
 config_data = {}
@@ -18,7 +19,7 @@ app = Flask(__name__)
 def forward_up():
     table = 'testacht1'
     print(json.dumps(request.json, indent=4, sort_keys=True))
-    df = pd.DataFrame([request.json['uplink_message']['received_at'],
+    df = pd.DataFrame(np.array([[request.json['uplink_message']['received_at'],
             request.json['end_device_ids']['dev_eui'],
             request.json['uplink_message']['decoded_payload']['analog_in_4'],
             request.json['uplink_message']['decoded_payload']['luminosity_6'],
@@ -31,7 +32,7 @@ def forward_up():
             request.json['uplink_message']['decoded_payload']['accelerometer_7']['z'],
             len(request.json['uplink_message']['rx_metadata']),
             request.json['uplink_message']['settings']['data_rate']['lora']['bandwidth'],
-            request.json['uplink_message']['settings']['data_rate']['lora']['spreading_factor']],
+            request.json['uplink_message']['settings']['data_rate']['lora']['spreading_factor']]]),
         columns=[   'timestamp1',
                     'hardware_serial',
                     'battery',
