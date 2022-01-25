@@ -56,6 +56,7 @@ def forward_up():
 
     with engine.connect() as con:
         df = pd.read_sql_query('''select id from testacht1 order by id desc limit 1''', con)
+    engine.dispose()
     df.head()
     print(df)
 
