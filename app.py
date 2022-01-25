@@ -50,7 +50,7 @@ def forward_up():
     df['timestamp1'] = pd.to_datetime(df['timestamp1'])
     print(df)
     with engine.connect() as con:
-        df.to_sql(name=table, con=con, if_exists='append', index=True)
+        df.to_sql(name=table, con=con, if_exists='append', index=False)
     engine.dispose()
     print(f"insert done into: {table}")
 
