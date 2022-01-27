@@ -75,14 +75,15 @@ def forward_up():
             columns=['testacht_id', 'timestamp', 'gateway_id', 'eui', 'rssi', 'snr']),
             ignore_index=True)
 
-    df_gatew['timestamp'] = pd.to_datetime(df_gatew['timestamp'])
+    print(df_gatew)
+    #df_gatew['timestamp'] = pd.to_datetime(df_gatew['timestamp'])
     table = 'testacht_gateways1'
     with engine.connect() as con:
         df_gatew.to_sql(name=table, con=con, if_exists='append', index=False)
     engine.dispose()
     print(f"insert done into: {table}")
 
-    print(df_gatew)
+
     return jsonify(success=1, response="ok")
 
 
