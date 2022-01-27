@@ -59,7 +59,7 @@ def forward_up():
     engine.dispose()
 
     df_gatew = pd.DataFrame()
-    for rxmetadata in request.json['uplink_message']['rx_metadata']:
+    for rxmetadata in request.json['uplink_message']['rx_metadata'].items():
         df_gatew.append(pd.DataFrame(np.array([[
             df['id'],
             rxmetadata['time'],
