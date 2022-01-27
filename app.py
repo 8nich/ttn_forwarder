@@ -61,13 +61,13 @@ def forward_up():
 
     df_gatew = pd.DataFrame()
     for rxmetadata in request.json['uplink_message']['rx_metadata']:
-        df_gatew.append(pd.DataFrame(
-        zip (list(df['id']),
-            list(rxmetadata['time']),
-            list(rxmetadata['gateway_ids']['gateway_id']),
-            list(rxmetadata['gateway_ids']['eui']),
-            list(rxmetadata['rssi']),
-            list(rxmetadata['snr'])),
+        df_gatew.append(pd.DataFrame(np.array([[
+            df['id'],
+            rxmetadata['time'],
+            rxmetadata['gateway_ids']['gateway_id'],
+            rxmetadata['gateway_ids']['eui'],
+            rxmetadata['rssi'],
+            rxmetadata['snr']]]),
         columns=['testacht_id', 'timestamp', 'gateway_id', 'eui', 'rssi', 'snr']),
         ignore_index=True)
 
@@ -83,14 +83,3 @@ def forward_up():
 @app.route("/")
 def index():
     return "Hello World!"
-
-
-def influxdb(payload):
-    influx_data = 'aqi,version={} pm25={},pm10={},temperature={},' \
-                  'humidity={},voltage={},duration={}' \
-        .format(payload['version'], payload['pm25'],
-                payload['pm10'], payload['temperature'],
-                payload['humidity'], payload['vbatt'],
-                payload['duration'])
-    return requests.post("http://ax616034.ngrok.io/write?db=mydb",
-                         data=influx_data).content
