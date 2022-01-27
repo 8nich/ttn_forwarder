@@ -57,9 +57,26 @@ def forward_up():
     with engine.connect() as con:
         df = pd.read_sql_query('''select id from testacht1 order by id desc limit 1''', con)
     engine.dispose()
-    df.head()
-    print(df)
 
+
+    df_gatew = pd.DataFrame()
+    for rxmetadata in request.json['uplink_message']['rx_metadata']:
+        df_gatew.append(pd.DataFrame(
+        zip (list(df['id']),
+            list(rxmetadata['time']),
+            list(rxmetadata['gateway_ids']['gateway_id']),
+            list(rxmetadata['gateway_ids']['eui']),
+            list(rxmetadata['rssi']),
+            list(rxmetadata['snr'])),
+        columns=['testacht_id', 'timestamp', 'gateway_id', 'eui', 'rssi', 'snr']),
+        ignore_index=True)
+
+    table = 'testacht_gateways1'
+    with engine.connect() as con:
+        df_gatew.to_sql(name=table, con=con, if_exists='append', index=False)
+    engine.dispose()
+
+    print(df_gatew)
     return jsonify(success=1, response="ok")
 
 
