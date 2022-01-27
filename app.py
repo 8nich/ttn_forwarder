@@ -19,6 +19,7 @@ app = Flask(__name__)
 def forward_up():
     table = 'testacht1'
     print(json.dumps(request.json, indent=4, sort_keys=True))
+    req_dict = json.loads(request.json)
     df = pd.DataFrame(np.array([[request.json['uplink_message']['received_at'],
                                  request.json['end_device_ids']['dev_eui'],
                                  request.json['uplink_message']['decoded_payload']['analog_in_4'],
@@ -59,14 +60,14 @@ def forward_up():
     engine.dispose()
 
     df_gatew = pd.DataFrame()
-    for rxmetadata in request.json['uplink_message']['rx_metadata'].items():
+    for req in req_dict['uplink_message']['rx_metadata'].items():
         df_gatew.append(pd.DataFrame(np.array([[
             df['id'],
-            rxmetadata['time'],
-            rxmetadata['gateway_ids']['gateway_id'],
-            rxmetadata['gateway_ids']['eui'],
-            rxmetadata['rssi'],
-            rxmetadata['snr']]], dtype="object"),
+            req['time'],
+            req['gateway_ids']['gateway_id'],
+            req['gateway_ids']['eui'],
+            req['rssi'],
+            req['snr']]], dtype="object"),
             columns=['testacht_id', 'timestamp', 'gateway_id', 'eui', 'rssi', 'snr']),
             ignore_index=True)
 
