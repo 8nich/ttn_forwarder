@@ -60,7 +60,13 @@ def forward_up():
 
     df_gatew = pd.DataFrame()
     for rxmetadata in request.json['uplink_message']['rx_metadata']:
-        print(rxmetadata)
+        try:
+            rxmetadata['time']
+        except NameError:
+            rxmetadata['time'] = request.json['uplink_message']['received_at']
+        else:
+            rxmetadata['time'] = rxmetadata['time']
+
         df_gatew.append(pd.DataFrame(np.array([[
             df['id'],
             rxmetadata['time'],
@@ -71,6 +77,7 @@ def forward_up():
             columns=['testacht_id', 'timestamp', 'gateway_id', 'eui', 'rssi', 'snr']),
             ignore_index=True)
 
+    df_gatew['timestamp'] = pd.to_datetime(df_gatew['timestamp'])
     table = 'testacht_gateways1'
     with engine.connect() as con:
         df_gatew.to_sql(name=table, con=con, if_exists='append', index=False)
