@@ -60,12 +60,10 @@ def forward_up():
 
     df_gatew = pd.DataFrame()
     for rxmetadata in request.json['uplink_message']['rx_metadata']:
-        try:
-            rxmetadata['time']
-        except NameError:
-            rxmetadata['time'] = request.json['uplink_message']['received_at']
-        else:
+        if 'time' in rxmetadata:
             rxmetadata['time'] = rxmetadata['time']
+        else:
+            rxmetadata['time'] = request.json['uplink_message']['received_at']
 
         df_gatew.append(pd.DataFrame(np.array([[
             df['id'],
