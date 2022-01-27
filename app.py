@@ -65,7 +65,7 @@ def forward_up():
         else:
             rxmetadata['time'] = request.json['uplink_message']['received_at']
 
-        df_gatew.append(pd.DataFrame(np.array([[
+        df_gatew = df_gatew.append(pd.DataFrame(np.array([[
             df['id'],
             rxmetadata['time'],
             rxmetadata['gateway_ids']['gateway_id'],
@@ -76,7 +76,7 @@ def forward_up():
             ignore_index=True)
 
     print(df_gatew)
-    #df_gatew['timestamp'] = pd.to_datetime(df_gatew['timestamp'])
+    df_gatew['timestamp'] = pd.to_datetime(df_gatew['timestamp'])
     table = 'testacht_gateways1'
     with engine.connect() as con:
         df_gatew.to_sql(name=table, con=con, if_exists='append', index=False)
