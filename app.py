@@ -48,7 +48,6 @@ def forward_up():
                                'BW',
                                'SF'])
     df['timestamp1'] = pd.to_datetime(df['timestamp1'])
-    print(df)
     with engine.connect() as con:
         df.to_sql(name=table, con=con, if_exists='append', index=False)
     engine.dispose()
@@ -57,8 +56,6 @@ def forward_up():
     with engine.connect() as con:
         df = pd.read_sql_query('''select id from testacht1 order by id desc limit 1''', con)
     engine.dispose()
-
-    print(df)
 
     df_gatew = pd.DataFrame()
     for rxmetadata in request.json['uplink_message']['rx_metadata']:
@@ -73,11 +70,9 @@ def forward_up():
             rxmetadata['gateway_ids']['gateway_id'],
             rxmetadata['gateway_ids']['eui'],
             rxmetadata['rssi'],
-            rxmetadata['snr']]], dtype="object"),
-            columns=['testacht_id', 'timestamp', 'gateway_id', 'eui', 'rssi', 'snr']),
-            ignore_index=True)
+            rxmetadata['snr']]]),
+            columns=['id', 'testacht_id', 'timestamp', 'gateway_id', 'eui', 'rssi', 'snr']),)
 
-    print(df['id'])
     df_gatew['timestamp'] = pd.to_datetime(df_gatew['timestamp'])
     print(df_gatew)
     table = 'testacht_gateways1'
@@ -85,7 +80,6 @@ def forward_up():
         df_gatew.to_sql(name=table, con=con, if_exists='append', index=False)
     engine.dispose()
     print(f"insert done into: {table}")
-
 
     return jsonify(success=1, response="ok")
 
