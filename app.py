@@ -65,13 +65,14 @@ def forward_up():
             rxmetadata['time'] = request.json['uplink_message']['received_at']
 
         df_gatew = df_gatew.append(pd.DataFrame(np.array([[
+            #0,
             df['id'][0],
             rxmetadata['time'],
             rxmetadata['gateway_ids']['gateway_id'],
             rxmetadata['gateway_ids']['eui'],
             rxmetadata['rssi'],
             rxmetadata['snr']]]),
-            columns=['id', 'testacht_id', 'timestamp', 'gateway_id', 'eui', 'rssi', 'snr']),)
+            columns=['testacht_id', 'timestamp', 'gateway_id', 'eui', 'rssi', 'snr']),)
 
     df_gatew['timestamp'] = pd.to_datetime(df_gatew['timestamp'])
     print(df_gatew)
