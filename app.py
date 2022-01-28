@@ -77,8 +77,9 @@ def forward_up():
             columns=['testacht_id', 'timestamp', 'gateway_id', 'eui', 'rssi', 'snr']),
             ignore_index=True)
 
-    print(df_gatew)
+    print(df['id'])
     df_gatew['timestamp'] = pd.to_datetime(df_gatew['timestamp'])
+    print(df_gatew)
     table = 'testacht_gateways1'
     with engine.connect() as con:
         df_gatew.to_sql(name=table, con=con, if_exists='append', index=False)
