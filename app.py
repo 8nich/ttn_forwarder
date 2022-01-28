@@ -77,6 +77,7 @@ def forward_up():
             columns=['testacht_id', 'timestamp', 'gateway_id', 'eui', 'rssi', 'snr']),
             ignore_index=True)
 
+    print(df)
     print(df['id'])
     df_gatew['timestamp'] = pd.to_datetime(df_gatew['timestamp'])
     print(df_gatew)
