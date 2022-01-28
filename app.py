@@ -18,7 +18,7 @@ app = Flask(__name__)
 @app.route('/up', methods=['POST'])
 def forward_up():
     table = 'testacht1'
-    print(json.dumps(request.json, indent=4, sort_keys=True))
+    #print(json.dumps(request.json, indent=4, sort_keys=True))
     df = pd.DataFrame(np.array([[request.json['uplink_message']['received_at'],
                                  request.json['end_device_ids']['dev_eui'],
                                  request.json['uplink_message']['decoded_payload']['analog_in_4'],
@@ -57,6 +57,8 @@ def forward_up():
     with engine.connect() as con:
         df = pd.read_sql_query('''select id from testacht1 order by id desc limit 1''', con)
     engine.dispose()
+
+    print(df)
 
     df_gatew = pd.DataFrame()
     for rxmetadata in request.json['uplink_message']['rx_metadata']:
