@@ -17,8 +17,7 @@ app = Flask(__name__)
 
 @app.route('/up', methods=['POST'])
 def forward_up():
-    table = 'testacht1'
-    #print(json.dumps(request.json, indent=4, sort_keys=True))
+    table = 'testacht'
     df = pd.DataFrame(np.array([[request.json['uplink_message']['received_at'],
                                  request.json['end_device_ids']['dev_eui'],
                                  request.json['uplink_message']['decoded_payload']['analog_in_4'],
@@ -65,7 +64,6 @@ def forward_up():
             rxmetadata['time'] = request.json['uplink_message']['received_at']
 
         df_gatew = df_gatew.append(pd.DataFrame(np.array([[
-            #0,
             df['id'][0],
             rxmetadata['time'],
             rxmetadata['gateway_ids']['gateway_id'],
@@ -75,8 +73,7 @@ def forward_up():
             columns=['testacht_id', 'timestamp', 'gateway_id', 'eui', 'rssi', 'snr']),)
 
     df_gatew['timestamp'] = pd.to_datetime(df_gatew['timestamp'])
-    print(df_gatew)
-    table = 'testacht_gateways1'
+    table = 'testacht_gateways'
     with engine.connect() as con:
         df_gatew.to_sql(name=table, con=con, if_exists='append', index=False)
     engine.dispose()
