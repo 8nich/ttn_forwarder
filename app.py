@@ -53,7 +53,7 @@ def forward_up():
     print(f"insert done into: {table}")
 
     with engine.connect() as con:
-        df = pd.read_sql_query('''select id from testacht1 order by id desc limit 1''', con)
+        df = pd.read_sql_query(f'''select id from {table} order by id desc limit 1''', con)
     engine.dispose()
 
     df_gatew = pd.DataFrame()
