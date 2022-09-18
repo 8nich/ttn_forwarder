@@ -10,6 +10,7 @@ import numpy as np
 load_dotenv()
 config_data = {}
 config_data["mysql-engine"] = os.getenv('mysql-engine')
+print(config_data)
 engine = db.create_engine(config_data["mysql-engine"])
 
 app = Flask(__name__)
